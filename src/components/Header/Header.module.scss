@@ -1,0 +1,19 @@
+.header {
+  background-color: #1769aa;
+  max-height: 200px;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.logo__wrapper {
+  max-width: 50px;
+  max-height: 50px;
+
+  &>img {
+    width: 100%;
+  }
+}
