@@ -1,15 +1,19 @@
+import BreadCrumbs from '../../components/BreadCrumbs/BreadCrumbs';
+import PersonalInfoForm from '../../components/Forms/PersonalInfoForm/PersonalInfoForm';
+import SignUpInfoForm from '../../components/Forms/SignUpInfoForm/SignUpInfoForm';
 import styles from './RegisterView.module.scss';
 
-const arr = ['hello', 'ted', 'red', 'had'];
 
 const RegisterView = () => {
   return (
-    <div className={styles.register_view}>
-      <div className={styles.progress_bar}>
-        {arr.map((element) => (
-          <div>{element}</div>
-        ))}
+    <div className={styles.container}>
+      <h2 className={styles.form_title}>form title</h2>
+      <BreadCrumbs />
+      <div className={styles.form}>
+        <SignUpInfoForm />
+        <PersonalInfoForm />
       </div>
+
     </div>
   )
 }

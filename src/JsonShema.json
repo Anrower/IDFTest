@@ -1,0 +1,51 @@
+{
+  "firstName": {
+    "required": true,
+    "minLength": "2",
+    "maxLength": "30"
+  },
+  "lastName": {
+    "required": true,
+    "minLength": "2",
+    "maxLength": "30"
+  },
+  "mobilePhone": {
+    "required": true,
+    "regExp": "^\\+375\\d{9}$"
+  },
+  "password": {
+    "required": true,
+    "minLength": "8",
+    "maxLength": "20"
+  },
+  "email": {
+    "required": true,
+    "regExp": "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+  },
+  "birthday": {
+    "required": true,
+    "minAge": "18",
+    "maxAge": "90"
+  },
+  "ocean": {
+    "required": true,
+    "oneOf": [
+      "Atlantic",
+      "Pacific",
+      "Indian",
+      "Arctic"
+    ]
+  },
+  "hobby": {
+    "required": true,
+    "anyOf": [
+      "Sport",
+      "Beauty",
+      "IT",
+      "Pets"
+    ]
+  },
+  "sex": {
+    "required": true
+  }
+}

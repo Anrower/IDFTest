@@ -1,12 +1,18 @@
-.register__view {
+.container {
+  padding: 10px;
+  max-width: 1440px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   gap: 10px;
+  background-color: #ffffff;
 }
 
-.progress_bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.form_title {
+  text-align: left;
+  font-size: 2.5rem;
+  text-transform: capitalize;
+}
+
+.form {
+  min-width: 480px;
 }
