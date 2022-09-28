@@ -9,13 +9,13 @@ import Button from '@mui/material/Button';
 const PersonalInfoForm = () => {
   return (
     <div className={styles.form}>
-      <TextInput
-        label='First Name'
+      {/* <TextInput
+        label="First Name"
       />
 
       <TextInput
-        label='Last Name'
-      />
+        label="Last Name"
+      /> */}
       <RadioButtonsGroup
         groupName={'Sex'}
         defaultValue={null}

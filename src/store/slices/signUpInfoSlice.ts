@@ -1,19 +1,35 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ISignUpInfoState {
-  test: null
+  tel: string
+  email: string
+  password: string
+  confirmPassword: string
+
 };
 
 const initialState: ISignUpInfoState = {
-  test: null
+  tel: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
 };
 
 export const signUpInfoSlice = createSlice({
   name: 'currency',
   initialState,
   reducers: {
-    updateTest(state, action: PayloadAction<any>) {
-      state.test = action.payload;
+    updateTel(state, action: PayloadAction<string>) {
+      state.tel = action.payload;
+    },
+    updateEmail(state, action: PayloadAction<string>) {
+      state.email = action.payload;
+    },
+    updatePassword(state, action: PayloadAction<string>) {
+      state.password = action.payload;
+    },
+    updateconfirmPassword(state, action: PayloadAction<string>) {
+      state.confirmPassword = action.payload;
     },
 
   }
@@ -21,5 +37,8 @@ export const signUpInfoSlice = createSlice({
 
 export default signUpInfoSlice.reducer;
 export const {
-  updateTest,
+  updateTel,
+  updateEmail,
+  updatePassword,
+  updateconfirmPassword
 } = signUpInfoSlice.actions;

@@ -6,35 +6,35 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { IPassword } from '../SignUpInfoForm/SignUpInfoForm';
-
+import { useAppDispatch } from '../../../hooks/redux';
+import { updateconfirmPassword, updatePassword } from '../../../store/slices/signUpInfoSlice';
 interface State {
-  password: string
   showPassword: boolean
-
 }
 
 interface IProps {
-  label: string
+  label: 'Password' | 'Confirm Password'
   value: string
+  required: boolean
 }
 
 export default function PasswordInput(props: IProps) {
-  const { label, value } = props;
-  const [values, setValues] = React.useState<State>({
-    password: '',
+  const { label } = props;
+  const dispatch = useAppDispatch();
+  const [showPassword, setShowPassword] = React.useState<State>({
     showPassword: false,
   });
 
   const handleChange =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      label === 'Password' ?
+        dispatch(updatePassword(e.target.value)) :
+        dispatch(updateconfirmPassword(e.target.value));
     };
 
   const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
+    setShowPassword({
+      showPassword: !showPassword.showPassword,
     });
   };
 
@@ -51,11 +51,10 @@ export default function PasswordInput(props: IProps) {
 
       <OutlinedInput
         fullWidth
-        id='password'
-        type={values.showPassword ? 'text' : 'password'}
-        label={label}
-        value={values.password}
-        onChange={handleChange('password')}
+        id="password"
+        type={showPassword.showPassword ? 'text' : 'password'}
+        {...props}
+        onChange={(e) => handleChange(e)}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
@@ -64,7 +63,7 @@ export default function PasswordInput(props: IProps) {
               onMouseDown={handleMouseDownPassword}
               edge="end"
             >
-              {values.showPassword ? <VisibilityOff /> : <Visibility />}
+              {showPassword.showPassword ? <VisibilityOff /> : <Visibility />}
             </IconButton>
           </InputAdornment>
         }

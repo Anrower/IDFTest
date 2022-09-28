@@ -4,28 +4,62 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Button from '@mui/material/Button';
 import styles from '../Form.module.scss';
 import { useState } from 'react';
+import { useAppSelector } from '../../../hooks/redux';
+import TextInput from '../TextInput/TextInput';
+import { IRegExp, ITextInputData } from '../../../models/Idata';
+import { checkLength, checkRegExp } from '../../../helpers/validations';
 
-export interface IPassword {
-  password: string
+interface IProps {
+  readonly dataEmail: IRegExp
+  readonly dataPassword: ITextInputData
+  readonly dataMobilePhone: IRegExp
 }
 
+const SignUpInfoForm = (props: IProps) => {
 
-const SignUpInfoForm = () => {
-  const [password, setPassword] = useState<IPassword>({
-    password: 'hello',
-  })
+  const { dataEmail, dataPassword, dataMobilePhone } = props;
+  const { tel, email, password, confirmPassword } = useAppSelector(state => state.signUpInfoSlice);
+
+  const handleNextStep = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
+    const removeTelSpaces = tel.split(' ').join('');
+    const isPasswordSame = password === confirmPassword;
+    const isTelRegTest = checkRegExp(removeTelSpaces, dataMobilePhone.regExp);
+    const isEmailRegTest = checkRegExp(email, dataEmail.regExp);
+    const isPasswordRightLength =
+      checkLength(password, dataPassword.minLength, dataPassword.maxLength);
+
+    if (isPasswordSame && isTelRegTest && isEmailRegTest && isPasswordRightLength) {
+      e.preventDefault();
+      alert('hello');
+    } else {
+      return
+    }
+  }
 
   return (
-    <div className={styles.form}>
-      <TelInput />
-      <PasswordInput
-        label='Password'
-        value={password.password}
+    <form className={styles.form}>
+      <TelInput
+        value={tel}
+        required={dataMobilePhone.required}
+      />
 
+      <TextInput
+        label="Email"
+        type={'email'}
+        defaultValue={email}
+        required={dataEmail.required}
+      />
+
+      <PasswordInput
+        label="Password"
+        value={password}
+        required={dataPassword.required}
       />
       <PasswordInput
-        label='Confirm Password'
-        value={password.password}
+        label="Confirm Password"
+        value={confirmPassword}
+        required={dataPassword.required}
       />
 
       <Button
@@ -35,11 +69,13 @@ const SignUpInfoForm = () => {
         }}
         variant="contained"
         color="primary"
+        onClick={(e) => handleNextStep(e)}
         endIcon={<NavigateNextIcon />}
+        type={'submit'}
       >
         Next Step
       </Button>
-    </div>
+    </form>
   )
 }
 

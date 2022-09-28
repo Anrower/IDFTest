@@ -3,13 +3,20 @@ import {
   MuiTelInput,
   MuiTelInputCountry,
 } from 'mui-tel-input'
+import { useAppDispatch } from '../../../hooks/redux'
+import { updateTel } from '../../../store/slices/signUpInfoSlice'
 
-const TelInput = () => {
-  const [value, setValue] = React.useState<string>('+375');
+interface IProps {
+  value: string
+  required: boolean
+}
+
+const TelInput = (props: IProps) => {
+  const dispatch = useAppDispatch();
+  // const { value, required } = props
 
   const handleChange = (newValue: string) => {
-    console.log(newValue);
-    setValue(newValue);
+    dispatch(updateTel(newValue))
   }
 
   const onlyCountries: MuiTelInputCountry[] = ['BY']
@@ -17,10 +24,10 @@ const TelInput = () => {
   return (
     <MuiTelInput
       sx={{ width: '100%' }}
-      label='Phone'
-      value={value}
+      label="Phone"
       onChange={handleChange}
       onlyCountries={onlyCountries}
+      {...props}
     />
   )
 }
