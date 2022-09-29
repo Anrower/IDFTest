@@ -19,14 +19,14 @@ const TelInput = (props: IProps) => {
     dispatch(updateTel(newValue))
   }
 
-  const onlyCountries: MuiTelInputCountry[] = ['BY']
+  // const onlyCountries: MuiTelInputCountry[] = ['BY']
 
   return (
     <MuiTelInput
       sx={{ width: '100%' }}
       label="Phone"
       onChange={handleChange}
-      onlyCountries={onlyCountries}
+      // onlyCountries={onlyCountries}
       {...props}
     />
   )

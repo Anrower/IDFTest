@@ -3,11 +3,12 @@ import TelInput from '../TelInput/TelInput';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Button from '@mui/material/Button';
 import styles from '../Form.module.scss';
-import { useState } from 'react';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import TextInput from '../TextInput/TextInput';
 import { IRegExp, ITextInputData } from '../../../models/Idata';
 import { checkLength, checkRegExp } from '../../../helpers/validations';
+import { useEffect } from 'react';
+import { throwCrumbs, updateShowActiveCrumb } from '../../../store/slices/breadCrumbsSlice';
 
 interface IProps {
   readonly dataEmail: IRegExp
@@ -17,11 +18,20 @@ interface IProps {
 
 const SignUpInfoForm = (props: IProps) => {
 
+  const dispatch = useAppDispatch();
   const { dataEmail, dataPassword, dataMobilePhone } = props;
-  const { tel, email, password, confirmPassword } = useAppSelector(state => state.signUpInfoSlice);
+  const {
+    tel,
+    email,
+    password,
+    confirmPassword
+  } = useAppSelector(state => state.signUpInfoReducer);
+
+  useEffect(() => {
+    dispatch(throwCrumbs('Sign Up Info'));
+  }, [dispatch])
 
   const handleNextStep = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-
     const removeTelSpaces = tel.split(' ').join('');
     const isPasswordSame = password === confirmPassword;
     const isTelRegTest = checkRegExp(removeTelSpaces, dataMobilePhone.regExp);
@@ -32,6 +42,7 @@ const SignUpInfoForm = (props: IProps) => {
     if (isPasswordSame && isTelRegTest && isEmailRegTest && isPasswordRightLength) {
       e.preventDefault();
       alert('hello');
+      dispatch(updateShowActiveCrumb(1));
     } else {
       return
     }
