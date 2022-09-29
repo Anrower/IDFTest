@@ -25,7 +25,7 @@ const SignUpInfoForm = (props: IProps) => {
     email,
     password,
     confirmPassword
-  } = useAppSelector(state => state.signUpInfoReducer);
+  } = useAppSelector(state => state.userInfoReducer);
 
   useEffect(() => {
     dispatch(throwCrumbs('Sign Up Info'));
@@ -41,7 +41,6 @@ const SignUpInfoForm = (props: IProps) => {
 
     if (isPasswordSame && isTelRegTest && isEmailRegTest && isPasswordRightLength) {
       e.preventDefault();
-      alert('hello');
       dispatch(updateShowActiveCrumb(1));
     } else {
       return

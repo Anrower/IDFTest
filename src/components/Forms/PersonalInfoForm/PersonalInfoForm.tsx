@@ -5,11 +5,38 @@ import SelectInput from '../SelectInput/SelectInput';
 import TextInput from '../TextInput/TextInput';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { useEffect } from 'react';
 import { backPreviousCrumb, pickUpCrumbs, throwCrumbs } from '../../../store/slices/breadCrumbsSlice';
+import { IBirthday, IHobby, IOcean, IRequired, ITextInputData } from '../../../models/Idata';
+import NumberInputGroup from '../NumberInputGroup/NumberInputGroup';
 
-const PersonalInfoForm = () => {
+interface IProps {
+  dataFirstName: ITextInputData
+  dataLastName: ITextInputData
+  dataBirthday: IBirthday
+  dataOcean: IOcean
+  dataHobby: IHobby
+  dataSex: IRequired
+}
+
+const PersonalInfoForm = (props: IProps) => {
+  const {
+    dataFirstName,
+    dataLastName,
+    dataBirthday,
+    dataHobby,
+    dataOcean,
+    dataSex
+  } = props
+  const {
+    firstName,
+    lastName,
+    birthday,
+    hobby,
+    favoriteOcean,
+    sex
+  } = useAppSelector(state => state.userInfoReducer);
 
   const dispatch = useAppDispatch();
 
@@ -23,43 +50,46 @@ const PersonalInfoForm = () => {
   }
 
   return (
-    <div className={styles.form}>
+    <form className={styles.form}>
       <TextInput
         label="First Name"
-        required={true}
-        defaultValue={''}
+        required={dataFirstName.required}
+        defaultValue={firstName}
         type={'text'}
       />
 
       <TextInput
         label="Last Name"
-        required={true}
-        defaultValue={''}
+        required={dataLastName.required}
+        defaultValue={lastName}
         type={'text'}
       />
+
       <RadioButtonsGroup
         groupName={'Sex'}
-        defaultValue={null}
-        values={['Male', 'Female']}
+        defaultValue={sex}
+        required={dataSex.required}
+        value={sex}
+      />
+
+      <NumberInputGroup
+        groupName='Birthday'
+        required={dataBirthday.required}
+        birthday={birthday}
       />
 
       <SelectInput
         groupName={'Your Favorite Ocean'}
-        items={[
-          "Atlantic",
-          "Pacific",
-          "Indian",
-          "Arctic"
-        ]}
+        items={dataOcean.oneOf}
+        required={dataOcean.required}
+        selectOption={favoriteOcean}
       />
 
       <CheckboxGroup
-        items={[
-          "Sport",
-          "Beauty",
-          "IT",
-          "Pets"
-        ]}
+        groupName={'Hobby'}
+        items={dataHobby.anyOf}
+        required={dataHobby.required}
+        selectOptions={hobby}
       />
 
       <Stack
@@ -80,6 +110,7 @@ const PersonalInfoForm = () => {
           Change SignUp Information
         </Button>
         <Button
+          type={'submit'}
           sx={{ width: '45%' }}
           color="primary"
           variant="contained"
@@ -87,7 +118,7 @@ const PersonalInfoForm = () => {
           Complete
         </Button>
       </Stack>
-    </div>
+    </form>
   )
 }
 

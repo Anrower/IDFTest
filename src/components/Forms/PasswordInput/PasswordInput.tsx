@@ -7,7 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useAppDispatch } from '../../../hooks/redux';
-import { updateconfirmPassword, updatePassword } from '../../../store/slices/signUpInfoSlice';
+import { updateconfirmPassword, updatePassword } from '../../../store/slices/userInfoSlice';
 interface State {
   showPassword: boolean
 }

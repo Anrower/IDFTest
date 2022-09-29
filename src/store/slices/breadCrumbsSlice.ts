@@ -11,7 +11,7 @@ const initialState: IBreadCrumbsState = {
 };
 
 export const breadCrumbsSlice = createSlice({
-  name: 'currency',
+  name: 'BreadCrumbs',
   initialState,
   reducers: {
     throwCrumbs(state, action: PayloadAction<string>) {

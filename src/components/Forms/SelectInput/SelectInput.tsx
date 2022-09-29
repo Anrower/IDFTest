@@ -4,29 +4,37 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useAppDispatch } from '../../../hooks/redux';
+import { updateFavoriteOcean } from '../../../store/slices/userInfoSlice';
 
 interface IProps {
   groupName: string
   items: string[]
+  required: boolean
+  selectOption: string
 }
 
 export default function SelectInput(props: IProps) {
-  const { groupName, items } = props;
-  const [selectOption, setSelectOption] = React.useState('');
+  const dispatch = useAppDispatch();
+  const { groupName, items, required, selectOption } = props;
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSelectOption(event.target.value as string);
+    dispatch(updateFavoriteOcean(event.target.value))
   };
 
   return (
     <Box sx={{ width: '100%' }}>
-      <FormControl fullWidth>
+      <FormControl
+        fullWidth
+        required={required}
+      >
         <InputLabel id="demo-simple-select-label">{groupName}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={selectOption}
           label={groupName}
+          required={required}
           onChange={handleChange}
         >
           {items.map((item) => (

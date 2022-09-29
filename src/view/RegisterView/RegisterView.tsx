@@ -9,7 +9,17 @@ import { useAppSelector } from '../../hooks/redux';
 
 const RegisterView = () => {
 
-  const { email, password, mobilePhone } = data as IData;
+  const {
+    email,
+    password,
+    mobilePhone,
+    firstName,
+    lastName,
+    birthday,
+    ocean,
+    hobby,
+    sex,
+  } = data as IData;
   const activeCrumb = useAppSelector(state => state.breadCrumbsReducer.showActiveCrumb)
 
   return (
@@ -24,7 +34,14 @@ const RegisterView = () => {
             dataMobilePhone={mobilePhone}
           /> :
           (activeCrumb === 1) ?
-            <PersonalInfoForm /> :
+            <PersonalInfoForm
+              dataFirstName={firstName}
+              dataLastName={lastName}
+              dataBirthday={birthday}
+              dataOcean={ocean}
+              dataHobby={hobby}
+              dataSex={sex}
+            /> :
             null
         }
       </div>

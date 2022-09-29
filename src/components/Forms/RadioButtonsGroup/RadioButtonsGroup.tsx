@@ -4,36 +4,51 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../hooks/redux';
+import { updateSex } from '../../../store/slices/userInfoSlice';
 
 interface IProps {
   groupName: string
   defaultValue: string | null
-  values: string[];
+  required: boolean
+  value: string;
 }
 
 export default function RadioButtonsGroup(props: IProps) {
-  const { groupName, defaultValue, values } = props;
+  const dispatch = useAppDispatch()
+  const { groupName, defaultValue, value, required } = props;
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(updateSex((event.target as HTMLInputElement).value));
+  };
 
   return (
-    <FormControl>
+    <FormControl required={required}>
       <FormLabel id="radio-buttons-group-label">{groupName}</FormLabel>
       <RadioGroup
         aria-labelledby="radio-buttons-group-label"
         defaultValue={defaultValue}
         name="radio-buttons-group"
+        value={value}
+        onChange={handleChange}
         sx={{
           flexDirection: 'row',
           gap: 1,
         }}
       >
-        {values.map((value) => (
-          <FormControlLabel
-            key={value}
-            value={value}
-            control={<Radio />}
-            label={value}
-          />
-        ))}
+        <FormControlLabel
+          value="female"
+          control={<Radio />}
+          label="Female"
+        />
+
+        <FormControlLabel
+          value="male"
+          control={<Radio />}
+          label="Male"
+        />
+
       </RadioGroup>
     </FormControl>
   );

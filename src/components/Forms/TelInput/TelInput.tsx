@@ -4,7 +4,7 @@ import {
   MuiTelInputCountry,
 } from 'mui-tel-input'
 import { useAppDispatch } from '../../../hooks/redux'
-import { updateTel } from '../../../store/slices/signUpInfoSlice'
+import { updateTel } from '../../../store/slices/userInfoSlice'
 
 interface IProps {
   value: string

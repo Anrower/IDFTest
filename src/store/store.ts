@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import signUpInfoReducer from "./slices/signUpInfoSlice";
+import userInfoReducer from "./slices/userInfoSlice";
 import breadCrumbsReducer from './slices/breadCrumbsSlice';
 
 const rootReducer = combineReducers({
-  signUpInfoReducer,
+  userInfoReducer,
   breadCrumbsReducer,
 });
 
