@@ -16,10 +16,12 @@ interface IProps {
   label: 'Password' | 'Confirm Password'
   value: string
   required: boolean
+  size?: 'small' | 'medium'
+  inputLabelSize?: 'small' | 'normal'
 }
 
 export default function PasswordInput(props: IProps) {
-  const { label } = props;
+  const { label, required, inputLabelSize } = props;
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = React.useState<State>({
     showPassword: false,
@@ -46,8 +48,14 @@ export default function PasswordInput(props: IProps) {
     <FormControl
       sx={{ width: '100%' }}
       variant="outlined"
+      required={required}
     >
-      <InputLabel htmlFor="password">{label}</InputLabel>
+      <InputLabel
+        htmlFor="password"
+        size={inputLabelSize}
+      >
+        {label}
+      </InputLabel>
 
       <OutlinedInput
         fullWidth

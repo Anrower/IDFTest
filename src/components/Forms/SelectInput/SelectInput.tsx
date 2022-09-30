@@ -12,11 +12,13 @@ interface IProps {
   items: string[]
   required: boolean
   selectOption: string
+  size?: 'small' | 'medium'
+  labelSize?: 'small' | 'normal'
 }
 
 export default function SelectInput(props: IProps) {
   const dispatch = useAppDispatch();
-  const { groupName, items, required, selectOption } = props;
+  const { groupName, items, required, selectOption, size, labelSize } = props;
 
   const handleChange = (event: SelectChangeEvent) => {
     dispatch(updateFavoriteOcean(event.target.value))
@@ -28,7 +30,12 @@ export default function SelectInput(props: IProps) {
         fullWidth
         required={required}
       >
-        <InputLabel id="demo-simple-select-label">{groupName}</InputLabel>
+        <InputLabel
+          id="demo-simple-select-label"
+          size={labelSize}
+        >
+          {groupName}
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -36,6 +43,7 @@ export default function SelectInput(props: IProps) {
           label={groupName}
           required={required}
           onChange={handleChange}
+          size={size}
         >
           {items.map((item) => (
             <MenuItem key={item} value={item}>{item}</MenuItem>

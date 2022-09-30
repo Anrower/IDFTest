@@ -5,6 +5,11 @@
   align-items: center;
   gap: 40px;
 
+  &>div.active {
+    color: #2196f3;
+    border-bottom: 2px solid #2196f3;
+  }
+
   &>div {
     font-size: 1.25rem;
     padding: 5px 5px 20px;
@@ -12,6 +17,7 @@
     justify-content: center;
     align-items: center;
     height: 40px;
-    border-bottom: 2px solid #2196f3;
+    color: rgb(192, 192, 192);
+    border-bottom: 2px solid rgb(192, 192, 192);
   }
 }

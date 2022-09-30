@@ -2,12 +2,17 @@ import { useAppSelector } from '../../hooks/redux';
 import styles from './BreadCrumbs.module.scss';
 
 const BreadCrumbs = () => {
-  const { crumbs: list } = useAppSelector(state => state.breadCrumbsReducer)
+  const { crumbs, showActiveCrumb } = useAppSelector(state => state.breadCrumbsReducer)
 
   return (
     <div className={styles.container}>
-      {list.map((item) => (
-        <div key={item}>{item}</div>
+      {crumbs.map((crumb, index) => (
+        <div
+          key={crumb}
+          className={index === showActiveCrumb ? styles.active : undefined}
+        >
+          {crumb}
+        </div>
       ))}
     </div>
   )

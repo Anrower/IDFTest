@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import { useAppDispatch } from '../../../hooks/redux';
 import { InputBaseComponentProps } from '@mui/material';
 import { updateBirthdayDay, updateBirthdayMonth, updateBirthdayYear, updateEmail, updateFistName, updateLastName } from '../../../store/slices/userInfoSlice'
+
 interface IProps {
   label: 'Email' | 'First Name' | 'Last Name' | 'Day' | 'Month' | 'Year'
   required: boolean

@@ -52,7 +52,6 @@ export default function RadioButtonsGroup(props: IProps) {
           label="Male"
         />
 
-        <FormHelperText>{helperText}</FormHelperText>
       </RadioGroup>
     </FormControl>
   );

@@ -15,5 +15,11 @@
 }
 
 .form {
-  min-width: 480px;
+  min-width: 440px;
+}
+
+@media (max-width: 480px) {
+  .form {
+    min-width: 300px;
+  }
 }

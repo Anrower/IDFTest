@@ -13,6 +13,8 @@ import NumberInputGroup from '../NumberInputGroup/NumberInputGroup';
 import { calculateAge, checkMinMax, isRequired } from '../../../helpers/validations';
 import UserInfoModal from '../../UserInfoModal/UserInfoModal';
 import { toggleUserInfoModal } from '../../../store/slices/userInfoModalSlice';
+import { screenInnerWidth } from '../../../helpers/consts';
+import { useBtnSize, useFieldSize, useInputLabelSize } from '../../../hooks/useSize';
 
 interface IProps {
   readonly dataFirstName: ITextInputData
@@ -43,8 +45,12 @@ const PersonalInfoForm = (props: IProps) => {
     sex
   } = useAppSelector(state => state.userInfoReducer);
 
+
   const { isOpen } = useAppSelector(state => state.userInfoModalReducer)
   const dispatch = useAppDispatch();
+  const btnSize = useBtnSize(screenInnerWidth);
+  const fieldSize = useFieldSize(screenInnerWidth);
+  const inputLabelSize = useInputLabelSize(screenInnerWidth);
 
   useEffect(() => {
     dispatch(throwCrumbs('Personal Info'));
@@ -95,6 +101,7 @@ const PersonalInfoForm = (props: IProps) => {
         required={dataFirstName.required}
         defaultValue={firstName}
         type={'text'}
+        size={fieldSize}
       />
 
       <TextInput
@@ -102,6 +109,7 @@ const PersonalInfoForm = (props: IProps) => {
         required={dataLastName.required}
         defaultValue={lastName}
         type={'text'}
+        size={fieldSize}
       />
 
       <RadioButtonsGroup
@@ -115,6 +123,7 @@ const PersonalInfoForm = (props: IProps) => {
         groupName='Birthday'
         required={dataBirthday.required}
         birthday={birthday}
+        size={fieldSize}
       />
 
       <SelectInput
@@ -122,6 +131,8 @@ const PersonalInfoForm = (props: IProps) => {
         items={dataOcean.oneOf}
         required={dataOcean.required}
         selectOption={favoriteOcean}
+        size={fieldSize}
+        labelSize={inputLabelSize}
       />
 
       <CheckboxGroup
@@ -136,24 +147,24 @@ const PersonalInfoForm = (props: IProps) => {
           width: '100%',
           display: 'flex',
           flexDirection: 'row',
-          justifyContent: 'center',
-          gap: 2
+          justifyContent: 'space-between',
+          // gap: 4
         }}
       >
         <Button
           variant="outlined"
           color="primary"
           onClick={handlePreviousStep}
-          size={'large'}
+          size={btnSize}
         >
-          Change Sign Up Information
+          Change Sign Up Info
         </Button>
         <Button
           type={'submit'}
           color="primary"
           variant="contained"
           onClick={(e) => handleComplete(e)}
-          size={'large'}
+          size={btnSize}
         >
           Complete
         </Button>

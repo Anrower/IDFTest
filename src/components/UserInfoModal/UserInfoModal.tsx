@@ -53,8 +53,11 @@ export default function UserInfoModal(props: Iprops) {
         >
           {`${userInfo.firstName} Info`}
         </Typography>
+
         <UserInfoTemplate />
+
         <Button onClick={handleChangeInfo}>Change Information</Button>
+
         <Button onClick={handleClose}>Save</Button>
       </Box>
     </Modal>

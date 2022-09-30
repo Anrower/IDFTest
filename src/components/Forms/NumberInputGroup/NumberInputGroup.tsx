@@ -9,10 +9,11 @@ interface IProps {
   groupName: string
   required: boolean
   birthday: BirthdayDate
+  size?: 'medium' | 'small'
 }
 
 export default function NumberInputGroup(props: IProps) {
-  const { required, groupName, birthday } = props;
+  const { required, groupName, birthday, size } = props;
   const { day, month, year } = birthday;
 
   const getYear = () => {
@@ -23,7 +24,12 @@ export default function NumberInputGroup(props: IProps) {
     <Box
       sx={{ width: '100%' }}
     >
-      <FormLabel id="number-input-group">{groupName}</FormLabel>
+      <FormLabel
+        id="number-input-group"
+        required={required}
+      >
+        {groupName}
+      </FormLabel>
       <FormGroup
         aria-labelledby="number-input-group"
       >
@@ -40,7 +46,8 @@ export default function NumberInputGroup(props: IProps) {
             defaultValue={day}
             required={required}
             type={'number'}
-            width={'20%'}
+            width={'25%'}
+            size={size}
             inputProps={{
               min: 1,
               max: 31,
@@ -52,7 +59,8 @@ export default function NumberInputGroup(props: IProps) {
             defaultValue={month}
             required={required}
             type={'number'}
-            width={'20%'}
+            width={'25%'}
+            size={size}
             inputProps={{
               min: 1,
               max: 12,
@@ -65,6 +73,7 @@ export default function NumberInputGroup(props: IProps) {
             required={required}
             type={'number'}
             width={'30%'}
+            size={size}
             inputProps={{
               min: 1900,
               max: getYear(),

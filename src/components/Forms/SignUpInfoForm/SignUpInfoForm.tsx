@@ -9,6 +9,8 @@ import { IRegExp, ITextInputData } from '../../../models/Idata';
 import { checkMinMax, checkRegExp } from '../../../helpers/validations';
 import { useEffect } from 'react';
 import { throwCrumbs, updateShowActiveCrumb } from '../../../store/slices/breadCrumbsSlice';
+import { screenInnerWidth } from '../../../helpers/consts';
+import { useBtnSize, useFieldSize, useInputLabelSize } from '../../../hooks/useSize';
 
 interface IProps {
   readonly dataEmail: IRegExp
@@ -18,6 +20,9 @@ interface IProps {
 
 const SignUpInfoForm = (props: IProps) => {
 
+  const btnSize = useBtnSize(screenInnerWidth);
+  const fieldSize = useFieldSize(screenInnerWidth);
+  const inputLabelSize = useInputLabelSize(screenInnerWidth);
   const dispatch = useAppDispatch();
   const { dataEmail, dataPassword, dataMobilePhone } = props;
   const {
@@ -29,7 +34,11 @@ const SignUpInfoForm = (props: IProps) => {
 
   useEffect(() => {
     dispatch(throwCrumbs('Sign Up Info'));
-  }, [dispatch])
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   console.log(BtnSize)
+  // }, [BtnSize, screenInnerWidth]);
 
   const handleNextStep = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
@@ -54,6 +63,7 @@ const SignUpInfoForm = (props: IProps) => {
       <TelInput
         value={tel}
         required={dataMobilePhone.required}
+        size={fieldSize}
       />
 
       <TextInput
@@ -61,17 +71,22 @@ const SignUpInfoForm = (props: IProps) => {
         type={'email'}
         defaultValue={email}
         required={dataEmail.required}
+        size={fieldSize}
       />
 
       <PasswordInput
         label="Password"
         value={password}
         required={dataPassword.required}
+        size={fieldSize}
+        inputLabelSize={inputLabelSize}
       />
       <PasswordInput
         label="Confirm Password"
         value={confirmPassword}
         required={dataPassword.required}
+        size={fieldSize}
+        inputLabelSize={inputLabelSize}
       />
 
       <Button
@@ -84,7 +99,7 @@ const SignUpInfoForm = (props: IProps) => {
         onClick={(e) => handleNextStep(e)}
         endIcon={<NavigateNextIcon />}
         type={'submit'}
-        size={'large'}
+        size={btnSize}
       >
         Next Step
       </Button>
