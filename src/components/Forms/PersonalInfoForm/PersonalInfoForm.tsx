@@ -15,6 +15,7 @@ import UserInfoModal from '../../UserInfoModal/UserInfoModal';
 import { toggleUserInfoModal } from '../../../store/slices/userInfoModalSlice';
 import { screenInnerWidth } from '../../../helpers/consts';
 import { useBtnSize, useFieldSize, useInputLabelSize } from '../../../hooks/useSize';
+import { getObjectValuesToString } from '../../../helpers/getObjectValueToStirng';
 
 interface IProps {
   readonly dataFirstName: ITextInputData
@@ -33,7 +34,7 @@ const PersonalInfoForm = (props: IProps) => {
     dataBirthday,
     dataHobby,
     dataOcean,
-    dataSex
+    dataSex,
   } = props
 
   const {
@@ -45,12 +46,19 @@ const PersonalInfoForm = (props: IProps) => {
     sex
   } = useAppSelector(state => state.userInfoReducer);
 
-
   const { isOpen } = useAppSelector(state => state.userInfoModalReducer)
   const dispatch = useAppDispatch();
   const btnSize = useBtnSize(screenInnerWidth);
   const fieldSize = useFieldSize(screenInnerWidth);
-  const inputLabelSize = useInputLabelSize(screenInnerWidth);
+  const inputlabelsize = useInputLabelSize(screenInnerWidth);
+
+  const [firstNameError, setFirstNameError] = useState<boolean>(false);
+  const [lastNameError, setLastNameError] = useState<boolean>(false);
+  const [sexError, setSexError] = useState<boolean>(false);
+  const [birthdayError, setBirthdayError] = useState<boolean>(false);
+  const [favoriteOceanEror, setFavoriteOceanError] = useState<boolean>(false);
+  const [hobbyError, setHobbyError] = useState<boolean>(false);
+
 
   useEffect(() => {
     dispatch(throwCrumbs('Personal Info'));
@@ -62,33 +70,53 @@ const PersonalInfoForm = (props: IProps) => {
   }
 
   const handleComplete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setFirstNameError(false);
+    setLastNameError(false);
+    setSexError(false);
+    setBirthdayError(false);
+    setFavoriteOceanError(false);
+    setHobbyError(false);
 
+
+    const selectHobbies = getObjectValuesToString(hobby);
     const isFirstNameRightLength = checkMinMax(
       firstName, dataFirstName.minLength, dataFirstName.maxLength
     );
+    setFirstNameError(!isFirstNameRightLength);
+
     const isLastNameRightLength = checkMinMax(
       lastName, dataLastName.minLength, dataLastName.maxLength
     );
+    setLastNameError(!isLastNameRightLength);
+
     const getAge = calculateAge(
       birthday.year, birthday.month, birthday.day
     );
     const isValidAge = checkMinMax(
       getAge, dataBirthday.minAge, dataBirthday.maxAge
     );
+    setBirthdayError(!isValidAge)
+
     const isValidSex = isRequired(sex);
+    setSexError(!isValidSex)
+
     const isValidFavoriteOcean = isRequired(favoriteOcean);
-    // const selectHobbyList = hobby.forEach(el => el === true);
-    console.log(hobby);
+    setFavoriteOceanError(!isValidFavoriteOcean);
+
+    const isValidHobbies = isRequired(selectHobbies);
+    setHobbyError(isValidHobbies);
 
     if (isFirstNameRightLength &&
       isLastNameRightLength &&
       isValidAge &&
       isValidSex &&
-      isValidFavoriteOcean
+      isValidFavoriteOcean &&
+      isValidHobbies
     ) {
       e.preventDefault();
       dispatch(toggleUserInfoModal());
     } else {
+      e.preventDefault();
       return
     }
 
@@ -102,6 +130,7 @@ const PersonalInfoForm = (props: IProps) => {
         defaultValue={firstName}
         type={'text'}
         size={fieldSize}
+        error={firstNameError}
       />
 
       <TextInput
@@ -110,6 +139,7 @@ const PersonalInfoForm = (props: IProps) => {
         defaultValue={lastName}
         type={'text'}
         size={fieldSize}
+        error={lastNameError}
       />
 
       <RadioButtonsGroup
@@ -117,9 +147,11 @@ const PersonalInfoForm = (props: IProps) => {
         defaultValue={sex}
         required={dataSex.required}
         value={sex}
+        error={sexError}
       />
 
       <NumberInputGroup
+        error={birthdayError}
         groupName='Birthday'
         required={dataBirthday.required}
         birthday={birthday}
@@ -132,7 +164,8 @@ const PersonalInfoForm = (props: IProps) => {
         required={dataOcean.required}
         selectOption={favoriteOcean}
         size={fieldSize}
-        labelSize={inputLabelSize}
+        inputlabelsize={inputlabelsize}
+        error={favoriteOceanEror}
       />
 
       <CheckboxGroup
@@ -140,6 +173,7 @@ const PersonalInfoForm = (props: IProps) => {
         items={dataHobby.anyOf}
         required={dataHobby.required}
         selectOptions={hobby}
+        error={hobbyError}
       />
 
       <Stack

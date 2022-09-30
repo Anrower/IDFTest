@@ -17,11 +17,12 @@ interface IProps {
   value: string
   required: boolean
   size?: 'small' | 'medium'
-  inputLabelSize?: 'small' | 'normal'
+  inputlabelsize?: 'small' | 'normal'
+  error: boolean
 }
 
 export default function PasswordInput(props: IProps) {
-  const { label, required, inputLabelSize } = props;
+  const { label, required, inputlabelsize: inputLabelSize, error } = props;
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = React.useState<State>({
     showPassword: false,
@@ -49,6 +50,7 @@ export default function PasswordInput(props: IProps) {
       sx={{ width: '100%' }}
       variant="outlined"
       required={required}
+      error={error}
     >
       <InputLabel
         htmlFor="password"
@@ -62,6 +64,7 @@ export default function PasswordInput(props: IProps) {
         id="password"
         type={showPassword.showPassword ? 'text' : 'password'}
         {...props}
+        error={error}
         onChange={(e) => handleChange(e)}
         endAdornment={
           <InputAdornment position="end">

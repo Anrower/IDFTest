@@ -13,12 +13,13 @@ interface IProps {
   required: boolean
   selectOption: string
   size?: 'small' | 'medium'
-  labelSize?: 'small' | 'normal'
+  inputlabelsize?: 'small' | 'normal'
+  error: boolean
 }
 
 export default function SelectInput(props: IProps) {
   const dispatch = useAppDispatch();
-  const { groupName, items, required, selectOption, size, labelSize } = props;
+  const { groupName, items, required, selectOption, size, inputlabelsize: labelSize, error } = props;
 
   const handleChange = (event: SelectChangeEvent) => {
     dispatch(updateFavoriteOcean(event.target.value))
@@ -28,6 +29,7 @@ export default function SelectInput(props: IProps) {
     <Box sx={{ width: '100%' }}>
       <FormControl
         fullWidth
+        error={error}
         required={required}
       >
         <InputLabel

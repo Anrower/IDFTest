@@ -8,6 +8,7 @@ interface IProps {
   value: string
   required: boolean
   size?: 'small' | 'medium'
+  error: boolean
 }
 
 const TelInput = (props: IProps) => {

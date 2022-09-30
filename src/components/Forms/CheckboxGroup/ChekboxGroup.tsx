@@ -12,16 +12,13 @@ interface IProps {
   items: string[]
   required: boolean
   selectOptions: HobbyCheked
-}
-
-interface Istate {
-  [key: string]: boolean;
+  error: boolean
 }
 
 export default function CheckboxGroup(props: IProps) {
 
   const dispatch = useAppDispatch();
-  const { items, required, groupName, selectOptions } = props;
+  const { items, required, groupName, selectOptions, error } = props;
 
   const handleChange = (e: React.SyntheticEvent<Element, Event>, label: string) => {
     const isChecked = (e as React.ChangeEvent<HTMLInputElement>).target.checked;
@@ -29,17 +26,19 @@ export default function CheckboxGroup(props: IProps) {
   };
 
   const getChecked = (item: string, selectOption: HobbyCheked): boolean => {
-    console.log(selectOption[item]);
     return selectOption[item];
   }
 
   return (
-    <FormControl required={required}>
+    <FormControl
+      required={required}
+      error={error}
+    >
       <FormLabel id="chek-box-group">{groupName}</FormLabel>
       <FormGroup
         aria-labelledby="chek-box-group"
       >
-        {items.map((item, index) => (
+        {items.map((item) => (
           <FormControlLabel
             key={item}
             onChange={(e) => handleChange(e, item)}

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import TextInput from '../TextInput/TextInput';
 import { IRegExp, ITextInputData } from '../../../models/Idata';
 import { checkMinMax, checkRegExp } from '../../../helpers/validations';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { throwCrumbs, updateShowActiveCrumb } from '../../../store/slices/breadCrumbsSlice';
 import { screenInnerWidth } from '../../../helpers/consts';
 import { useBtnSize, useFieldSize, useInputLabelSize } from '../../../hooks/useSize';
@@ -19,6 +19,10 @@ interface IProps {
 }
 
 const SignUpInfoForm = (props: IProps) => {
+
+  const [telError, setTelError] = useState<boolean>(false);
+  const [emailError, setEmailEror] = useState<boolean>(false);
+  const [passwordError, setPasswordEror] = useState<boolean>(false);
 
   const btnSize = useBtnSize(screenInnerWidth);
   const fieldSize = useFieldSize(screenInnerWidth);
@@ -42,18 +46,28 @@ const SignUpInfoForm = (props: IProps) => {
 
   const handleNextStep = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
-    const removeTelSpaces = tel.split(' ').join('');
-    const isPasswordSame = password === confirmPassword;
-    const isTelRegTest = checkRegExp(removeTelSpaces, dataMobilePhone.regExp);
-    const isEmailRegTest = checkRegExp(email, dataEmail.regExp);
+    setTelError(false);
+    setEmailEror(false);
+    setPasswordEror(false);
+
     const isPasswordRightLength = checkMinMax(
       password, dataPassword.minLength, dataPassword.maxLength
     );
+    const isPasswordSame = password === confirmPassword;
+    setPasswordEror(!isPasswordRightLength || !isPasswordSame);
+
+    const removeTelSpaces = tel.split(' ').join('');
+    const isTelRegTest = checkRegExp(removeTelSpaces, dataMobilePhone.regExp);
+    setTelError(!isTelRegTest);
+
+    const isEmailRegTest = checkRegExp(email, dataEmail.regExp);
+    setEmailEror(!isEmailRegTest);
 
     if (isPasswordSame && isTelRegTest && isEmailRegTest && isPasswordRightLength) {
       e.preventDefault();
       dispatch(updateShowActiveCrumb(1));
     } else {
+      e.preventDefault();
       return
     }
   }
@@ -64,6 +78,7 @@ const SignUpInfoForm = (props: IProps) => {
         value={tel}
         required={dataMobilePhone.required}
         size={fieldSize}
+        error={telError}
       />
 
       <TextInput
@@ -72,6 +87,7 @@ const SignUpInfoForm = (props: IProps) => {
         defaultValue={email}
         required={dataEmail.required}
         size={fieldSize}
+        error={emailError}
       />
 
       <PasswordInput
@@ -79,14 +95,16 @@ const SignUpInfoForm = (props: IProps) => {
         value={password}
         required={dataPassword.required}
         size={fieldSize}
-        inputLabelSize={inputLabelSize}
+        inputlabelsize={inputLabelSize}
+        error={passwordError}
       />
       <PasswordInput
         label="Confirm Password"
         value={confirmPassword}
         required={dataPassword.required}
         size={fieldSize}
-        inputLabelSize={inputLabelSize}
+        inputlabelsize={inputLabelSize}
+        error={passwordError}
       />
 
       <Button

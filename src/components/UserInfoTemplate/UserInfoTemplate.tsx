@@ -5,7 +5,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useAppSelector } from '../../hooks/redux';
-import { HobbyCheked } from '../../store/slices/userInfoSlice';
+import { getObjectValuesToString } from '../../helpers/getObjectValueToStirng';
 
 export default function CustomPaginationActionsTable() {
 
@@ -13,11 +13,6 @@ export default function CustomPaginationActionsTable() {
 
   function createData(name: string, value: string) {
     return { name, value };
-  }
-
-  const objectToString = (object: HobbyCheked) => {
-    let result = Object.keys(object);
-    return result.join(', ');
   }
 
   const rows = [
@@ -29,7 +24,7 @@ export default function CustomPaginationActionsTable() {
     createData('Sex:', data.sex),
     createData('Birthday:', `${data.birthday.day}.${data.birthday.month}.${data.birthday.year}`),
     createData('Favorite Ocean:', data.favoriteOcean),
-    createData('Hobby:', objectToString(data.hobby)),
+    createData('Hobby:', getObjectValuesToString(data.hobby)),
   ];
 
   return (

@@ -4,16 +4,18 @@ import FormLabel from '@mui/material/FormLabel';
 import TextInput from '../TextInput/TextInput';
 import { Box } from '@mui/system';
 import { BirthdayDate } from '../../../store/slices/userInfoSlice';
+import { FormControl } from '@mui/material';
 
 interface IProps {
   groupName: string
+  error: boolean
   required: boolean
   birthday: BirthdayDate
   size?: 'medium' | 'small'
 }
 
 export default function NumberInputGroup(props: IProps) {
-  const { required, groupName, birthday, size } = props;
+  const { required, groupName, birthday, size, error } = props;
   const { day, month, year } = birthday;
 
   const getYear = () => {
@@ -30,8 +32,10 @@ export default function NumberInputGroup(props: IProps) {
       >
         {groupName}
       </FormLabel>
-      <FormGroup
+      <FormControl
+        error={error}
         aria-labelledby="number-input-group"
+        sx={{ width: '100%' }}
       >
         <Box
           sx={{
@@ -48,6 +52,7 @@ export default function NumberInputGroup(props: IProps) {
             type={'number'}
             width={'25%'}
             size={size}
+            error={error}
             inputProps={{
               min: 1,
               max: 31,
@@ -60,6 +65,7 @@ export default function NumberInputGroup(props: IProps) {
             required={required}
             type={'number'}
             width={'25%'}
+            error={error}
             size={size}
             inputProps={{
               min: 1,
@@ -68,6 +74,7 @@ export default function NumberInputGroup(props: IProps) {
           />
 
           <TextInput
+            error={error}
             label="Year"
             defaultValue={year}
             required={required}
@@ -80,7 +87,7 @@ export default function NumberInputGroup(props: IProps) {
             }}
           />
         </Box>
-      </FormGroup>
+      </FormControl>
     </Box>
   );
 }

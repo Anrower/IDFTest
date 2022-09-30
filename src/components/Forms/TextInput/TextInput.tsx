@@ -7,6 +7,7 @@ import { updateBirthdayDay, updateBirthdayMonth, updateBirthdayYear, updateEmail
 interface IProps {
   label: 'Email' | 'First Name' | 'Last Name' | 'Day' | 'Month' | 'Year'
   required: boolean
+  error: boolean
   defaultValue?: string
   type: React.InputHTMLAttributes<unknown>['type']
   width?: string
@@ -16,7 +17,7 @@ interface IProps {
 
 export default function TextInput(props: IProps) {
   const dispatch = useAppDispatch();
-  const { label, required, defaultValue, type, width, inputProps, size } = props;
+  const { label, required, defaultValue, type, width, inputProps, size, error } = props;
 
   const handleChange =
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -59,6 +60,8 @@ export default function TextInput(props: IProps) {
       onChange={(e) => handleChange(e)}
       inputProps={inputProps}
       size={size}
+      error={error}
+      helperText={error ? 'Incorrect entry.' : null}
     />
   );
 }

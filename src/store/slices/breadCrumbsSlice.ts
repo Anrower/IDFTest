@@ -31,6 +31,7 @@ export const breadCrumbsSlice = createSlice({
     pickSelectCrumb(state, action: PayloadAction<string>) {
       const findIndex = state.crumbs.findIndex((el) => el === action.payload);
       state.crumbs = state.crumbs.slice(0, findIndex);
+      state.showActiveCrumb = findIndex;
     }
   }
 });

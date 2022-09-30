@@ -32,7 +32,6 @@ export default function UserInfoModal(props: Iprops) {
   const handleClose = () => dispatch(toggleUserInfoModal());
   const handleChangeInfo = () => {
     dispatch(toggleUserInfoModal());
-    dispatch(updateShowActiveCrumb(0));
     dispatch(pickSelectCrumb('Sign Up Info'));
   }
 

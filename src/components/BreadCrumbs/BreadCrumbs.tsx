@@ -1,7 +1,9 @@
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { pickSelectCrumb } from '../../store/slices/breadCrumbsSlice';
 import styles from './BreadCrumbs.module.scss';
 
 const BreadCrumbs = () => {
+  const dispatch = useAppDispatch();
   const { crumbs, showActiveCrumb } = useAppSelector(state => state.breadCrumbsReducer)
 
   return (
@@ -10,6 +12,7 @@ const BreadCrumbs = () => {
         <div
           key={crumb}
           className={index === showActiveCrumb ? styles.active : undefined}
+          onClick={() => dispatch(pickSelectCrumb(crumb))}
         >
           {crumb}
         </div>
