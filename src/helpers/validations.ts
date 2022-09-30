@@ -1,7 +1,16 @@
+import { HobbyCheked } from './../store/slices/userInfoSlice';
 import dayjs from 'dayjs'
 export const checkRegExp = (field: string, regExp: string): boolean => {
   const reg = new RegExp(regExp);
   return reg.test(field);
+}
+
+export const isSelect = (obj: HobbyCheked): boolean => {
+  const values = Object.values(obj).filter(value => value === true);
+  if (values.length > 0) {
+    return true;
+  }
+  return false;
 }
 
 export const checkMinMax = (field: string | number, min: string, max: string): boolean => {

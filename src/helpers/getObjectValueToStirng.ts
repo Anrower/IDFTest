@@ -1,6 +1,11 @@
 import { HobbyCheked } from "../store/slices/userInfoSlice";
 
 export const getObjectValuesToString = (object: HobbyCheked): string => {
-  let result = Object.keys(object);
-  return result.join(', ');
+  const keys = Object.keys(object);
+
+  const filtered = keys.filter(function (key) {
+    return object[key] === true;
+  });
+
+  return filtered.join(', ');
 }

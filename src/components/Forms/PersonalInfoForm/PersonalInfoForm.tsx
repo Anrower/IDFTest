@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { backPreviousCrumb, pickUpCrumbs, throwCrumbs } from '../../../store/slices/breadCrumbsSlice';
 import { IBirthday, IHobby, IOcean, IRequired, ITextInputData } from '../../../models/Idata';
 import NumberInputGroup from '../NumberInputGroup/NumberInputGroup';
-import { calculateAge, checkMinMax, isRequired } from '../../../helpers/validations';
+import { calculateAge, checkMinMax, isRequired, isSelect } from '../../../helpers/validations';
 import UserInfoModal from '../../UserInfoModal/UserInfoModal';
 import { toggleUserInfoModal } from '../../../store/slices/userInfoModalSlice';
 import { screenInnerWidth } from '../../../helpers/consts';
@@ -77,8 +77,6 @@ const PersonalInfoForm = (props: IProps) => {
     setFavoriteOceanError(false);
     setHobbyError(false);
 
-
-    const selectHobbies = getObjectValuesToString(hobby);
     const isFirstNameRightLength = checkMinMax(
       firstName, dataFirstName.minLength, dataFirstName.maxLength
     );
@@ -103,14 +101,19 @@ const PersonalInfoForm = (props: IProps) => {
     const isValidFavoriteOcean = isRequired(favoriteOcean);
     setFavoriteOceanError(!isValidFavoriteOcean);
 
-    const isValidHobbies = isRequired(selectHobbies);
-    setHobbyError(isValidHobbies);
+    const isSelectHobbies = isSelect(hobby);
+    const stringHobbies = getObjectValuesToString(hobby)
+    const isValidHobbies = isRequired(stringHobbies);
+
+    setHobbyError(!isValidHobbies);
+    setHobbyError(!isSelectHobbies);
 
     if (isFirstNameRightLength &&
       isLastNameRightLength &&
       isValidAge &&
       isValidSex &&
       isValidFavoriteOcean &&
+      isSelectHobbies &&
       isValidHobbies
     ) {
       e.preventDefault();
@@ -172,7 +175,6 @@ const PersonalInfoForm = (props: IProps) => {
         groupName={'Hobby'}
         items={dataHobby.anyOf}
         required={dataHobby.required}
-        selectOptions={hobby}
         error={hobbyError}
       />
 

@@ -4,42 +4,27 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { HobbyCheked, initHobby, updateHobby } from '../../../store/slices/userInfoSlice';
-import { useAppDispatch } from '../../../hooks/redux';
+import { updateHobby } from '../../../store/slices/userInfoSlice';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { FormHelperText } from '@mui/material';
 
 interface IProps {
   groupName: string
   items: string[]
   required: boolean
-  selectOptions: HobbyCheked
   error: boolean
-}
-
-interface ICheckBox {
-  [key: string]: boolean
 }
 
 export default function CheckboxGroup(props: IProps) {
 
+  const hobby = useAppSelector(state => state.userInfoReducer.hobby)
   const dispatch = useAppDispatch();
-  const { items, required, groupName, selectOptions, error } = props;
-
-  const memoizedValue = React.useMemo(() => {
-    const obj: ICheckBox = {};
-    for (const key of items) {
-      obj[key] = false;
-    }
-    dispatch(initHobby(obj))
-  }, [items, dispatch]);
+  const { items, required, groupName, error } = props;
+  const warningMessage = `Please Select ${groupName}`;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.name)
-    dispatch(updateHobby({ ...selectOptions, [e.target.name]: e.target.checked }))
+    dispatch(updateHobby({ [e.target.name]: e.target.checked }))
   };
-
-  const getChecked = (item: string, selectOption: HobbyCheked): boolean => {
-    return selectOption[item];
-  }
 
   return (
     <FormControl
@@ -50,13 +35,16 @@ export default function CheckboxGroup(props: IProps) {
       <FormGroup
         aria-labelledby="chek-box-group"
       >
+        <FormHelperText
+          children={error ? warningMessage : undefined}
+        />
         {items.map((item) => (
           <FormControlLabel
             key={item}
             control={
               <Checkbox
                 name={item}
-                checked={getChecked(item, selectOptions)}
+                checked={hobby[item]}
                 onChange={(e) => handleChange(e)}
               />
             }
