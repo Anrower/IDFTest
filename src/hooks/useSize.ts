@@ -18,4 +18,10 @@ export const useInputLabelSize = (screenInnerWidth: number): 'small' | 'normal' 
   }, [screenInnerWidth])
 }
 
+export const useMinWidth = (screenInnerWidth: number): 300 | 460 => {
+  return useMemo(() => {
+    return screenInnerWidth < 480 ? 300 : 460;
+  }, [screenInnerWidth])
+}
+
 

@@ -6,6 +6,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useAppSelector } from '../../hooks/redux';
 import { getObjectValuesToString } from '../../helpers/getObjectValueToStirng';
+import { screenInnerWidth } from '../../helpers/consts';
 
 export default function CustomPaginationActionsTable() {
 
@@ -13,6 +14,11 @@ export default function CustomPaginationActionsTable() {
 
   function createData(name: string, value: string) {
     return { name, value };
+  }
+
+  const styleTableCel = {
+    maxWidth: 'auto',
+    padding: 10
   }
 
   const rows = [
@@ -32,14 +38,24 @@ export default function CustomPaginationActionsTable() {
       component={Paper}
       sx={{ marginTop: 2 }}
     >
-      <Table sx={{ minWidth: 400 }} aria-label="custom pagination table">
+      <Table
+        sx={{ minWidth: '100%' }}
+        aria-label="custom pagination table"
+      >
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
+              <TableCell
+                component="th"
+                scope="row"
+                style={screenInnerWidth < 480 ? styleTableCel : undefined}
+              >
                 {row.name}
               </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
+              <TableCell
+                style={screenInnerWidth < 480 ? styleTableCel : undefined}
+                align="right"
+              >
                 {row.value}
               </TableCell>
             </TableRow>

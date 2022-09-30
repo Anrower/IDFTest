@@ -20,7 +20,7 @@ export interface BirthdayDate {
 }
 
 export interface HobbyCheked {
-  [key: string]: boolean;
+  [key: string]: boolean
 }
 
 const initialState: userInfoState = {
@@ -80,6 +80,9 @@ export const userInfoSlice = createSlice({
     updateSex(state, action: PayloadAction<string>) {
       state.sex = action.payload;
     },
+    initHobby(state, action: PayloadAction<HobbyCheked>) {
+      state.hobby = action.payload;
+    }
 
   }
 });
@@ -98,4 +101,5 @@ export const {
   updateHobby,
   updateLastName,
   updateSex,
+  initHobby
 } = userInfoSlice.actions;
