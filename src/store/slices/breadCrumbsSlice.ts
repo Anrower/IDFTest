@@ -27,6 +27,10 @@ export const breadCrumbsSlice = createSlice({
     },
     backPreviousCrumb(state) {
       state.showActiveCrumb -= 1;
+    },
+    pickSelectCrumb(state, action: PayloadAction<string>) {
+      const findIndex = state.crumbs.findIndex((el) => el === action.payload);
+      state.crumbs = state.crumbs.slice(0, findIndex);
     }
   }
 });
@@ -37,4 +41,5 @@ export const {
   pickUpCrumbs,
   updateShowActiveCrumb,
   backPreviousCrumb,
+  pickSelectCrumb,
 } = breadCrumbsSlice.actions;

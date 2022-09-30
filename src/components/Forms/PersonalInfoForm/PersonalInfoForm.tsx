@@ -6,11 +6,13 @@ import TextInput from '../TextInput/TextInput';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { backPreviousCrumb, pickUpCrumbs, throwCrumbs } from '../../../store/slices/breadCrumbsSlice';
 import { IBirthday, IHobby, IOcean, IRequired, ITextInputData } from '../../../models/Idata';
 import NumberInputGroup from '../NumberInputGroup/NumberInputGroup';
 import { calculateAge, checkMinMax, isRequired } from '../../../helpers/validations';
+import UserInfoModal from '../../UserInfoModal/UserInfoModal';
+import { toggleUserInfoModal } from '../../../store/slices/userInfoModalSlice';
 
 interface IProps {
   readonly dataFirstName: ITextInputData
@@ -22,6 +24,7 @@ interface IProps {
 }
 
 const PersonalInfoForm = (props: IProps) => {
+
   const {
     dataFirstName,
     dataLastName,
@@ -30,6 +33,7 @@ const PersonalInfoForm = (props: IProps) => {
     dataOcean,
     dataSex
   } = props
+
   const {
     firstName,
     lastName,
@@ -39,6 +43,7 @@ const PersonalInfoForm = (props: IProps) => {
     sex
   } = useAppSelector(state => state.userInfoReducer);
 
+  const { isOpen } = useAppSelector(state => state.userInfoModalReducer)
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -76,7 +81,7 @@ const PersonalInfoForm = (props: IProps) => {
       isValidFavoriteOcean
     ) {
       e.preventDefault();
-      console.log('open PopUp');
+      dispatch(toggleUserInfoModal());
     } else {
       return
     }
@@ -153,6 +158,7 @@ const PersonalInfoForm = (props: IProps) => {
           Complete
         </Button>
       </Stack>
+      <UserInfoModal isOpen={isOpen} />
     </form>
   )
 }

@@ -1,10 +1,13 @@
+
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userInfoReducer from "./slices/userInfoSlice";
 import breadCrumbsReducer from './slices/breadCrumbsSlice';
+import userInfoModalReducer from './slices/userInfoModalSlice';
 
 const rootReducer = combineReducers({
   userInfoReducer,
   breadCrumbsReducer,
+  userInfoModalReducer,
 });
 
 export const store = configureStore({
