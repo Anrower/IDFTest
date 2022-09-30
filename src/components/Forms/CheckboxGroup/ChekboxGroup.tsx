@@ -28,20 +28,23 @@ export default function CheckboxGroup(props: IProps) {
     dispatch(updateHobby({ ...selectOptions, [label]: isChecked }))
   };
 
+  const getChecked = (item: string, selectOption: HobbyCheked): boolean => {
+    console.log(selectOption[item]);
+    return selectOption[item];
+  }
+
   return (
     <FormControl required={required}>
       <FormLabel id="chek-box-group">{groupName}</FormLabel>
       <FormGroup
         aria-labelledby="chek-box-group"
       >
-        {items.map((item) => (
+        {items.map((item, index) => (
           <FormControlLabel
             key={item}
             onChange={(e) => handleChange(e, item)}
             control={
-              <Checkbox
-                checked={selectOptions[item]}
-              />
+              <Checkbox checked={getChecked(item, selectOptions)} />
             }
             label={item}
           />

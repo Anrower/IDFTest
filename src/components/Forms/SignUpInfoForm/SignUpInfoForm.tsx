@@ -6,7 +6,7 @@ import styles from '../Form.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import TextInput from '../TextInput/TextInput';
 import { IRegExp, ITextInputData } from '../../../models/Idata';
-import { checkLength, checkRegExp } from '../../../helpers/validations';
+import { checkMinMax, checkRegExp } from '../../../helpers/validations';
 import { useEffect } from 'react';
 import { throwCrumbs, updateShowActiveCrumb } from '../../../store/slices/breadCrumbsSlice';
 
@@ -32,12 +32,14 @@ const SignUpInfoForm = (props: IProps) => {
   }, [dispatch])
 
   const handleNextStep = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
     const removeTelSpaces = tel.split(' ').join('');
     const isPasswordSame = password === confirmPassword;
     const isTelRegTest = checkRegExp(removeTelSpaces, dataMobilePhone.regExp);
     const isEmailRegTest = checkRegExp(email, dataEmail.regExp);
-    const isPasswordRightLength =
-      checkLength(password, dataPassword.minLength, dataPassword.maxLength);
+    const isPasswordRightLength = checkMinMax(
+      password, dataPassword.minLength, dataPassword.maxLength
+    );
 
     if (isPasswordSame && isTelRegTest && isEmailRegTest && isPasswordRightLength) {
       e.preventDefault();
@@ -82,6 +84,7 @@ const SignUpInfoForm = (props: IProps) => {
         onClick={(e) => handleNextStep(e)}
         endIcon={<NavigateNextIcon />}
         type={'submit'}
+        size={'large'}
       >
         Next Step
       </Button>

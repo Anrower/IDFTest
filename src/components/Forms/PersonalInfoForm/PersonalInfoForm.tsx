@@ -10,14 +10,15 @@ import { useEffect } from 'react';
 import { backPreviousCrumb, pickUpCrumbs, throwCrumbs } from '../../../store/slices/breadCrumbsSlice';
 import { IBirthday, IHobby, IOcean, IRequired, ITextInputData } from '../../../models/Idata';
 import NumberInputGroup from '../NumberInputGroup/NumberInputGroup';
+import { calculateAge, checkMinMax, isRequired } from '../../../helpers/validations';
 
 interface IProps {
-  dataFirstName: ITextInputData
-  dataLastName: ITextInputData
-  dataBirthday: IBirthday
-  dataOcean: IOcean
-  dataHobby: IHobby
-  dataSex: IRequired
+  readonly dataFirstName: ITextInputData
+  readonly dataLastName: ITextInputData
+  readonly dataBirthday: IBirthday
+  readonly dataOcean: IOcean
+  readonly dataHobby: IHobby
+  readonly dataSex: IRequired
 }
 
 const PersonalInfoForm = (props: IProps) => {
@@ -47,6 +48,39 @@ const PersonalInfoForm = (props: IProps) => {
   const handlePreviousStep = () => {
     dispatch(pickUpCrumbs())
     dispatch(backPreviousCrumb());
+  }
+
+  const handleComplete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
+    const isFirstNameRightLength = checkMinMax(
+      firstName, dataFirstName.minLength, dataFirstName.maxLength
+    );
+    const isLastNameRightLength = checkMinMax(
+      lastName, dataLastName.minLength, dataLastName.maxLength
+    );
+    const getAge = calculateAge(
+      birthday.year, birthday.month, birthday.day
+    );
+    const isValidAge = checkMinMax(
+      getAge, dataBirthday.minAge, dataBirthday.maxAge
+    );
+    const isValidSex = isRequired(sex);
+    const isValidFavoriteOcean = isRequired(favoriteOcean);
+    // const selectHobbyList = hobby.forEach(el => el === true);
+    console.log(hobby);
+
+    if (isFirstNameRightLength &&
+      isLastNameRightLength &&
+      isValidAge &&
+      isValidSex &&
+      isValidFavoriteOcean
+    ) {
+      e.preventDefault();
+      console.log('open PopUp');
+    } else {
+      return
+    }
+
   }
 
   return (
@@ -102,18 +136,19 @@ const PersonalInfoForm = (props: IProps) => {
         }}
       >
         <Button
-          sx={{ width: '45%' }}
           variant="outlined"
           color="primary"
           onClick={handlePreviousStep}
+          size={'large'}
         >
-          Change SignUp Information
+          Change Sign Up Information
         </Button>
         <Button
           type={'submit'}
-          sx={{ width: '45%' }}
           color="primary"
           variant="contained"
+          onClick={(e) => handleComplete(e)}
+          size={'large'}
         >
           Complete
         </Button>

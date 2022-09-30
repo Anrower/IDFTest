@@ -7,6 +7,7 @@ import FormLabel from '@mui/material/FormLabel';
 import { useDispatch } from 'react-redux';
 import { useAppDispatch } from '../../../hooks/redux';
 import { updateSex } from '../../../store/slices/userInfoSlice';
+import { FormHelperText } from '@mui/material';
 
 interface IProps {
   groupName: string
@@ -18,6 +19,8 @@ interface IProps {
 export default function RadioButtonsGroup(props: IProps) {
   const dispatch = useAppDispatch()
   const { groupName, defaultValue, value, required } = props;
+  const [error, setError] = React.useState(false);
+  const [helperText, setHelperText] = React.useState(`Chose ${groupName}`);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateSex((event.target as HTMLInputElement).value));
@@ -49,6 +52,7 @@ export default function RadioButtonsGroup(props: IProps) {
           label="Male"
         />
 
+        <FormHelperText>{helperText}</FormHelperText>
       </RadioGroup>
     </FormControl>
   );
