@@ -37,12 +37,7 @@ const initialState: userInfoState = {
     year: '',
   },
   favoriteOcean: '',
-  hobby: {
-    Sport: false,
-    Beauty: false,
-    It: false,
-    Pets: false,
-  },
+  hobby: {},
 };
 
 export const userInfoSlice = createSlice({
@@ -66,6 +61,9 @@ export const userInfoSlice = createSlice({
     },
     updateLastName(state, action: PayloadAction<string>) {
       state.lastName = action.payload;
+    },
+    initHobby(state, action: PayloadAction<HobbyCheked>) {
+      state.hobby = action.payload
     },
     updateHobby(state, action: PayloadAction<HobbyCheked>) {
       state.hobby = { ...state.hobby, ...action.payload }
@@ -99,6 +97,7 @@ export const {
   updateBirthdayYear,
   updateFavoriteOcean,
   updateFistName,
+  initHobby,
   updateHobby,
   updateLastName,
   updateSex,

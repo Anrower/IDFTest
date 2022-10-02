@@ -33,12 +33,12 @@ export default function TextInput(props: IProps) {
           break
         case 'Day':
           let day = event.target.value;
-          day.length === 1 ? day = '0' + day : day = day;
+          day = day.length === 1 ? day = '0' + day : day;
           dispatch(updateBirthdayDay(day));
           break
         case 'Month':
           let month = event.target.value;
-          month.length === 1 ? month = '0' + month : month = month;
+          month = month.length === 1 ? month = '0' + month : month;
           dispatch(updateBirthdayMonth(month));
           break
         case 'Year':

@@ -40,10 +40,6 @@ const SignUpInfoForm = (props: IProps) => {
     dispatch(throwCrumbs('Sign Up Info'));
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   console.log(BtnSize)
-  // }, [BtnSize, screenInnerWidth]);
-
   const handleNextStep = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
     setTelError(false);
@@ -54,7 +50,7 @@ const SignUpInfoForm = (props: IProps) => {
       password, dataPassword.minLength, dataPassword.maxLength
     );
     const isPasswordSame = password === confirmPassword;
-    setPasswordEror(!isPasswordRightLength || !isPasswordSame);
+    setPasswordEror(!isPasswordSame || !isPasswordRightLength);
 
     const removeTelSpaces = tel.split(' ').join('');
     const isTelRegTest = checkRegExp(removeTelSpaces, dataMobilePhone.regExp);

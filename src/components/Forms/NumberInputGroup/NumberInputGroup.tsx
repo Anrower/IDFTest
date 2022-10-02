@@ -1,5 +1,4 @@
-import * as React from 'react';
-import FormGroup from '@mui/material/FormGroup';
+import dayjs from 'dayjs'
 import FormLabel from '@mui/material/FormLabel';
 import TextInput from '../TextInput/TextInput';
 import { Box } from '@mui/system';
@@ -19,7 +18,7 @@ export default function NumberInputGroup(props: IProps) {
   const { day, month, year } = birthday;
 
   const getYear = () => {
-    return new Date().getFullYear();
+    return dayjs().year();
   }
 
   return (

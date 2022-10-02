@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { backPreviousCrumb, pickUpCrumbs, throwCrumbs } from '../../../store/slices/breadCrumbsSlice';
 import { IBirthday, IHobby, IOcean, IRequired, ITextInputData } from '../../../models/Idata';
 import NumberInputGroup from '../NumberInputGroup/NumberInputGroup';
-import { calculateAge, checkMinMax, isRequired, isSelect } from '../../../helpers/validations';
+import { calculateAge, checkDayAtFebruary, checkMinMax, isRequired, isSelect } from '../../../helpers/validations';
 import UserInfoModal from '../../UserInfoModal/UserInfoModal';
 import { toggleUserInfoModal } from '../../../store/slices/userInfoModalSlice';
 import { screenInnerWidth } from '../../../helpers/consts';
@@ -90,10 +90,13 @@ const PersonalInfoForm = (props: IProps) => {
     const getAge = calculateAge(
       birthday.year, birthday.month, birthday.day
     );
+    const isValidFebruary = checkDayAtFebruary(
+      Number(birthday.day), birthday.month, Number(birthday.year)
+    );
     const isValidAge = checkMinMax(
       getAge, dataBirthday.minAge, dataBirthday.maxAge
     );
-    setBirthdayError(!isValidAge)
+    setBirthdayError(!isValidAge || !isValidFebruary);
 
     const isValidSex = isRequired(sex);
     setSexError(!isValidSex)
@@ -111,6 +114,7 @@ const PersonalInfoForm = (props: IProps) => {
     if (isFirstNameRightLength &&
       isLastNameRightLength &&
       isValidAge &&
+      isValidFebruary &&
       isValidSex &&
       isValidFavoriteOcean &&
       isSelectHobbies &&
