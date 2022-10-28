@@ -15,24 +15,24 @@ export interface IRequired {
 }
 
 export interface ITextInputData extends IRequired {
-  minLength: string
-  maxLength: string
+  readonly minLength: string
+  readonly maxLength: string
 }
 
 export interface IRegExp extends IRequired {
-  regExp: string
+  readonly regExp: string
 }
 
 export interface IBirthday extends IRequired {
-  minAge: string
-  maxAge: string
+  readonly minAge: string
+  readonly maxAge: string
 }
 
 export interface IOcean extends IRequired {
-  oneOf: string[]
+  readonly oneOf: string[]
 }
 
 export interface IHobby extends IRequired {
-  anyOf: string[]
+  readonly anyOf: string[]
 }
 

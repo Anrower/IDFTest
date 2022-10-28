@@ -50,21 +50,57 @@ export const calculateAge = (year: string, month: string, day: string): number =
   }
 }
 
-export const checkDayAtFebruary = (day: number, month: string, year: number,): boolean => {
-  if (((month === '2') || (month === '02')) && (day >= 28)) {
+export const checkValidDate = (day: number, month: number, year: number): boolean => {
+  const isValidDay = validDateField('day', day);
+  const isValidMonth = validDateField('month', month);
+  const isValidYear = validDateField('year', year);
 
-    const isLeapYear = function (year: number) {
-      return !((year % 4) || (!(year % 100) && (year % 400)));
-    }(year);
+  if (isValidDay && isValidMonth && isValidYear) {
+    return checkDayAtMonth(day, month, year);
+  }
 
-    if (isLeapYear && (day === 29)) {
+  return false;
+}
+
+const validDateField = (field: string, fieldValue: number): boolean => {
+  const nowYear = dayjs().year();
+
+  switch (field) {
+    case 'day':
+      return ((fieldValue <= 31) && (fieldValue > 0)) ? true : false;
+    case 'month':
+      return ((fieldValue <= 12) && (fieldValue > 0)) ? true : false;
+    case 'year':
+      return ((fieldValue < nowYear) && (fieldValue > 0)) ? true : false;
+    default:
+      return false;
+  }
+
+}
+
+const checkDayAtMonth = (day: number, month: number, year: number,): boolean => {
+  if (month === 2) {
+    const isLeapYear = checkIsLeap(year);
+    console.log(isLeapYear);
+
+    if (isLeapYear && (day <= 29)) {
       return true;
-    } else if (isLeapYear && (day === 28)) {
+    } else if (!isLeapYear && (day <= 28)) {
       return true;
     } else {
       return false
     }
-  } else {
+
+  } else if ([4, 6, 8, 11].includes(month) && (day <= 30)) {
+    return true;
+
+  } else if ([1, 3, 5, 7, 8, 10, 12].includes(month) && (day <= 31)) {
     return true;
   }
+
+  return false;
+}
+
+const checkIsLeap = (year: number) => {
+  return !((year % 4) || (!(year % 100) && (year % 400)));
 }

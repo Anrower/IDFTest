@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { backPreviousCrumb, pickUpCrumbs, throwCrumbs } from '../../../store/slices/breadCrumbsSlice';
 import { IBirthday, IHobby, IOcean, IRequired, ITextInputData } from '../../../models/Idata';
 import NumberInputGroup from '../NumberInputGroup/NumberInputGroup';
-import { calculateAge, checkDayAtFebruary, checkMinMax, isRequired, isSelect } from '../../../helpers/validations';
+import { calculateAge, checkMinMax, isRequired, isSelect, checkValidDate } from '../../../helpers/validations';
 import UserInfoModal from '../../UserInfoModal/UserInfoModal';
 import { toggleUserInfoModal } from '../../../store/slices/userInfoModalSlice';
 import { screenInnerWidth } from '../../../helpers/consts';
@@ -18,12 +18,12 @@ import { useBtnSize, useFieldSize, useInputLabelSize } from '../../../hooks/useS
 import { getObjectValuesToString } from '../../../helpers/getObjectValueToStirng';
 
 interface IProps {
-  readonly dataFirstName: ITextInputData
-  readonly dataLastName: ITextInputData
-  readonly dataBirthday: IBirthday
-  readonly dataOcean: IOcean
-  readonly dataHobby: IHobby
-  readonly dataSex: IRequired
+  dataFirstName: ITextInputData
+  dataLastName: ITextInputData
+  dataBirthday: IBirthday
+  dataOcean: IOcean
+  dataHobby: IHobby
+  dataSex: IRequired
 }
 
 const PersonalInfoForm = (props: IProps) => {
@@ -90,16 +90,16 @@ const PersonalInfoForm = (props: IProps) => {
     const getAge = calculateAge(
       birthday.year, birthday.month, birthday.day
     );
-    const isValidFebruary = checkDayAtFebruary(
-      Number(birthday.day), birthday.month, Number(birthday.year)
+    const isValidDate = checkValidDate(
+      Number(birthday.day), Number(birthday.month), Number(birthday.year)
     );
     const isValidAge = checkMinMax(
       getAge, dataBirthday.minAge, dataBirthday.maxAge
     );
-    setBirthdayError(!isValidAge || !isValidFebruary);
+    setBirthdayError(!isValidAge || !isValidDate);
 
     const isValidSex = isRequired(sex);
-    setSexError(!isValidSex)
+    setSexError(!isValidSex);
 
     const isValidFavoriteOcean = isRequired(favoriteOcean);
     setFavoriteOceanError(!isValidFavoriteOcean);
@@ -114,7 +114,7 @@ const PersonalInfoForm = (props: IProps) => {
     if (isFirstNameRightLength &&
       isLastNameRightLength &&
       isValidAge &&
-      isValidFebruary &&
+      isValidDate &&
       isValidSex &&
       isValidFavoriteOcean &&
       isSelectHobbies &&
